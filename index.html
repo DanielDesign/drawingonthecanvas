@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+  <title>Example</title>
+</head>
+<body>
+  
+  <h1 class="title">Drawing on the canvas</h1>
+  <div class="container">
+    <div class="colors">
+      <div class="yellow" onclick="changeColorCanvas(this)"></div>
+      <div class="blue" onclick="changeColorCanvas(this)"></div>
+      <div class="coral" onclick="changeColorCanvas(this)"></div>
+      <div class="pink" onclick="changeColorCanvas(this)"></div>
+      <div class="red" onclick="changeColorCanvas(this)"></div>
+      <div class="green" onclick="changeColorCanvas(this)"></div>
+    </div>
+    <div class="eraser">
+      <h2>erase</h2>
+      <img src="icons/borrador.png" alt="" onclick="changeCursor()">
+    </div>
+    <div class="clean">
+      <h2>Clear</h2>
+      <img src="icons/trash.png" alt="" onclick="clearCanvas()">
+    </div>
+  </div>
+  <canvas id="canvas" height="400" width="400"></canvas>
+
+  <div class="freepik">Iconos diseñados por <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
+
+  <script>
+    // When true, moving the mouse draws on the canvas
+    let isDrawing = false;
+    let x = 0;
+    let y = 0;
+
+    const canvas = document.getElementById('canvas');
+    const cx = canvas.getContext('2d');
+
+    // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
+
+    // Add the event listeners for mousedown, mousemove, and mouseup
+    canvas.addEventListener('mousedown', e => {
+      x = e.offsetX;
+      y = e.offsetY;
+      isDrawing = true;
+    });
+
+    canvas.addEventListener('mousemove', e => {
+      if (isDrawing === true) {
+        drawLine(cx, x, y, e.offsetX, e.offsetY);
+        x = e.offsetX;
+        y = e.offsetY;
+      }
+    });
+
+    window.addEventListener('mouseup', e => {
+      if (isDrawing === true) {
+        drawLine(cx, x, y, e.offsetX, e.offsetY);
+        x = 0;
+        y = 0;
+        isDrawing = false;
+      }
+    });
+
+    function drawLine(cx, x1, y1, x2, y2) {
+      cx.beginPath();
+      cx.lineJoin = "round";
+      cx.lineWidth = 4;
+      cx.moveTo(x1, y1);
+      cx.lineTo(x2, y2);
+      cx.stroke();
+      cx.closePath();
+    }
+
+    function changeColorCanvas(element){
+      const style = window.getComputedStyle(element);
+      const color = style.getPropertyValue('background-color');
+
+      console.log(color);
+      canvas.style.cursor = "url('icons/lapiz.png')  0 69, pointer";
+      cx.strokeStyle = color;
+    }
+
+    function clearCanvas(){
+      cx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function changeCursor(){
+      canvas.style.cursor = "url('icons/borrador32.png'), pointer";
+      cx.strokeStyle = 'white';
+    }
+  </script>
+</body>
+</html>
