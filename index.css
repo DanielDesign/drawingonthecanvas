@@ -1,6 +1,11 @@
 /*fonts*/
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap');
 
+:root{
+  --pos-cursor-canvas: 0 69;
+  --pos-colors: 0 -30;
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -88,8 +93,7 @@ body{
 }
 
 .colors  div{
-  border: 1px solid black;
-  cursor: url('icons/pincel32.png') 0 -30 , pointer;
+  cursor: url('icons/pincel32.png') var(--pos-colors), pointer;
 }
 
 #canvas {
@@ -97,7 +101,7 @@ body{
   display: block;
   margin: 50px auto;
   background-color: white;
-  cursor: url("icons/lapiz.png") 0 69, pointer;
+  cursor: url("icons/lapiz.png") var(--pos-cursor-canvas), pointer;
 }
 
 .freepik{
